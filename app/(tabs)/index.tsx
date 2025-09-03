@@ -1,13 +1,14 @@
 import { Asset } from 'expo-asset';
 import {
-    AudioModule,
-    AudioQuality,
-    IOSOutputFormat,
-    RecordingPresets,
-    setAudioModeAsync,
-    useAudioPlayer,
-    useAudioRecorder,
-    useAudioRecorderState
+  AudioModule,
+  AudioQuality,
+  IOSOutputFormat,
+  RecordingOptions,
+  RecordingPresets,
+  setAudioModeAsync,
+  useAudioPlayer,
+  useAudioRecorder,
+  useAudioRecorderState
 } from 'expo-audio';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -26,16 +27,22 @@ export default function Index() {
   const audioPlayer = useAudioPlayer(lastRecordingUri);
   
   // Safe recording setup: Use preset for Android, WAV only on iOS
-  const iosWavOptions = {
+  const iosWavOptions: RecordingOptions = {
     extension: '.wav',
     sampleRate: 16000, // whisper.cpp requires 16kHz
     numberOfChannels: 1, // mono for speech
+    bitRate: 16000 * 16 * 1, // 256000 bps for 16kHz, 16-bit, mono
     ios: {
       outputFormat: IOSOutputFormat.LINEARPCM,
       audioQuality: AudioQuality.MAX,
       linearPCMBitDepth: 16,
       linearPCMIsBigEndian: false,
       linearPCMIsFloat: false,
+    },
+    // Provide android fields to satisfy RecordingOptions typing, not used on iOS
+    android: {
+      outputFormat: 'mpeg4',
+      audioEncoder: 'aac',
     },
   };
   
@@ -48,6 +55,15 @@ export default function Index() {
   const addLog = (message: string) => {
     const timestamp = new Date().toLocaleTimeString();
     setLogs(prev => [...prev, `[${timestamp}] ${message}`]);
+  };
+
+  const getErrorMessage = (err: unknown): string => {
+    if (err instanceof Error) return err.message;
+    try {
+      return JSON.stringify(err);
+    } catch {
+      return String(err);
+    }
   };
 
   // Request microphone permissions
@@ -69,8 +85,8 @@ export default function Index() {
         addLog('❌ Microphone permission denied');
         Alert.alert('Permission Required', 'Microphone access is required for voice transcription');
       }
-    } catch (error) {
-      addLog(`❌ Permission error: ${error}`);
+    } catch (error: unknown) {
+      addLog(`❌ Permission error: ${getErrorMessage(error)}`);
     }
   };
 
@@ -152,7 +168,7 @@ export default function Index() {
         maxLen: 1,
         tokenTimestamps: true,
         language: 'en',
-        onProgress: (progress) => {
+        onProgress: (progress: number) => {
           addLog(`📈 Transcription progress: ${progress}%`);
         },
       });
@@ -201,11 +217,11 @@ export default function Index() {
         setResult(`You said: "${transcription.trim()}"`);
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Recording/Transcription error:', error);
-      addLog(`❌ Error: ${error}`);
+      addLog(`❌ Error: ${getErrorMessage(error)}`);
       
-      if (error.message?.includes('timeout')) {
+      if (error instanceof Error && error.message?.includes('timeout')) {
         setResult('Transcription timed out. Please try again with clearer speech.');
       } else {
         setResult('Recording or transcription failed. Please try again.');
@@ -295,11 +311,11 @@ export default function Index() {
           setResult(`Transcription: "${transcription}"`);
         }
         
-      } catch (audioError) {
+      } catch (audioError: unknown) {
         console.error('Audio transcription error:', audioError);
-        addLog(`❌ Audio transcription failed: ${audioError}`);
+        addLog(`❌ Audio transcription failed: ${getErrorMessage(audioError)}`);
         
-        if (audioError.message?.includes('timeout')) {
+        if (audioError instanceof Error && audioError.message?.includes('timeout')) {
           addLog('💡 Try using a longer audio file (at least 1-2 seconds)');
           setResult('Transcription timed out. Your 0.07s audio file may be too short for processing.');
         } else {
@@ -309,9 +325,9 @@ export default function Index() {
         }
       }
       
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Transcription error:', error);
-      addLog(`❌ Transcription error: ${error}`);
+      addLog(`❌ Transcription error: ${getErrorMessage(error)}`);
       Alert.alert('Error', 'Failed to test transcription');
     } finally {
       setIsLoading(false);
@@ -325,8 +341,8 @@ export default function Index() {
         setWhisperContext(null);
         setModelLoaded(false);
         addLog('✅ Model released');
-      } catch (error) {
-        addLog(`❌ Error releasing model: ${error}`);
+      } catch (error: unknown) {
+        addLog(`❌ Error releasing model: ${getErrorMessage(error)}`);
       }
     }
   };

@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		A119EEC8EB79B4AA210BBC4A /* libPods-whisperlocal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 543A64741DB46E0E4D981CBA /* libPods-whisperlocal.a */; };
-		A9D103DFC50CBD4688000D55 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 37AC75FDE117F702A14997A3 /* PrivacyInfo.xcprivacy */; };
-		AA5A9CAE81A56BA3392EE436 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6704C9974FC6E3505207710 /* ExpoModulesProvider.swift */; };
+		5BF11CD486BD46ED59624029 /* libPods-whisperlocal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A9430A19CACFF855D17FE /* libPods-whisperlocal.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C62C1FFC3EE8EAFABD2A364F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3132BE3031D229AD2B091B92 /* ExpoModulesProvider.swift */; };
+		DB5776378F412A69C1AA534A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AC04355037DE4F91427EBA33 /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,13 +20,13 @@
 		13B07F961A680F5B00A75B9A /* whisperlocal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whisperlocal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = whisperlocal/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = whisperlocal/Info.plist; sourceTree = "<group>"; };
-		37AC75FDE117F702A14997A3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = whisperlocal/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		543A64741DB46E0E4D981CBA /* libPods-whisperlocal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-whisperlocal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3132BE3031D229AD2B091B92 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-whisperlocal/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = whisperlocal/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B1EF375DD545BE61F7F66BCA /* Pods-whisperlocal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whisperlocal.debug.xcconfig"; path = "Target Support Files/Pods-whisperlocal/Pods-whisperlocal.debug.xcconfig"; sourceTree = "<group>"; };
+		AC04355037DE4F91427EBA33 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = whisperlocal/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E6704C9974FC6E3505207710 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-whisperlocal/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		EA31D4CE641BCD710400A934 /* Pods-whisperlocal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whisperlocal.release.xcconfig"; path = "Target Support Files/Pods-whisperlocal/Pods-whisperlocal.release.xcconfig"; sourceTree = "<group>"; };
+		C370B45075B7F3C18F6E7F98 /* Pods-whisperlocal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whisperlocal.release.xcconfig"; path = "Target Support Files/Pods-whisperlocal/Pods-whisperlocal.release.xcconfig"; sourceTree = "<group>"; };
+		CDB2E5EFC7578F8D50621D31 /* Pods-whisperlocal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whisperlocal.debug.xcconfig"; path = "Target Support Files/Pods-whisperlocal/Pods-whisperlocal.debug.xcconfig"; sourceTree = "<group>"; };
+		D33A9430A19CACFF855D17FE /* libPods-whisperlocal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-whisperlocal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = whisperlocal/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* whisperlocal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "whisperlocal-Bridging-Header.h"; path = "whisperlocal/whisperlocal-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,21 +37,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A119EEC8EB79B4AA210BBC4A /* libPods-whisperlocal.a in Frameworks */,
+				5BF11CD486BD46ED59624029 /* libPods-whisperlocal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		069D9122E1DBAA75080E7C54 /* whisperlocal */ = {
-			isa = PBXGroup;
-			children = (
-				E6704C9974FC6E3505207710 /* ExpoModulesProvider.swift */,
-			);
-			name = whisperlocal;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* whisperlocal */ = {
 			isa = PBXGroup;
 			children = (
@@ -61,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				37AC75FDE117F702A14997A3 /* PrivacyInfo.xcprivacy */,
+				AC04355037DE4F91427EBA33 /* PrivacyInfo.xcprivacy */,
 			);
 			name = whisperlocal;
 			sourceTree = "<group>";
@@ -70,9 +62,17 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				543A64741DB46E0E4D981CBA /* libPods-whisperlocal.a */,
+				D33A9430A19CACFF855D17FE /* libPods-whisperlocal.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2D6377BDF8D01AAB17596C79 /* whisperlocal */ = {
+			isa = PBXGroup;
+			children = (
+				3132BE3031D229AD2B091B92 /* ExpoModulesProvider.swift */,
+			);
+			name = whisperlocal;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +89,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				9A9AAD575806323BFF77DDE4 /* Pods */,
-				EC90AEE2FE118C3DB2182FAE /* ExpoModulesProviders */,
+				FF7BB2753D2759A0B9CFE0B7 /* Pods */,
+				F0445DEAEDA944D57858E56E /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,16 +105,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9A9AAD575806323BFF77DDE4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B1EF375DD545BE61F7F66BCA /* Pods-whisperlocal.debug.xcconfig */,
-				EA31D4CE641BCD710400A934 /* Pods-whisperlocal.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,12 +114,22 @@
 			path = whisperlocal/Supporting;
 			sourceTree = "<group>";
 		};
-		EC90AEE2FE118C3DB2182FAE /* ExpoModulesProviders */ = {
+		F0445DEAEDA944D57858E56E /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				069D9122E1DBAA75080E7C54 /* whisperlocal */,
+				2D6377BDF8D01AAB17596C79 /* whisperlocal */,
 			);
 			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		FF7BB2753D2759A0B9CFE0B7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CDB2E5EFC7578F8D50621D31 /* Pods-whisperlocal.debug.xcconfig */,
+				C370B45075B7F3C18F6E7F98 /* Pods-whisperlocal.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "whisperlocal" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				A2861524D70A6F7CE5FFEE3B /* [Expo] Configure project */,
+				FE7511852237703073298F86 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				BE627F606571C7EE82C235E5 /* [CP] Embed Pods Frameworks */,
+				A41A4D6E992C7D2D31EBA773 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -198,7 +198,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				A9D103DFC50CBD4688000D55 /* PrivacyInfo.xcprivacy in Resources */,
+				DB5776378F412A69C1AA534A /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,26 +282,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-whisperlocal/Pods-whisperlocal-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A2861524D70A6F7CE5FFEE3B /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-whisperlocal/expo-configure-project.sh\"\n";
-		};
-		BE627F606571C7EE82C235E5 /* [CP] Embed Pods Frameworks */ = {
+		A41A4D6E992C7D2D31EBA773 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -321,6 +302,25 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-whisperlocal/Pods-whisperlocal-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FE7511852237703073298F86 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-whisperlocal/expo-configure-project.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -329,7 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				AA5A9CAE81A56BA3392EE436 /* ExpoModulesProvider.swift in Sources */,
+				C62C1FFC3EE8EAFABD2A364F /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +338,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1EF375DD545BE61F7F66BCA /* Pods-whisperlocal.debug.xcconfig */;
+			baseConfigurationReference = CDB2E5EFC7578F8D50621D31 /* Pods-whisperlocal.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -377,7 +377,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA31D4CE641BCD710400A934 /* Pods-whisperlocal.release.xcconfig */;
+			baseConfigurationReference = C370B45075B7F3C18F6E7F98 /* Pods-whisperlocal.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

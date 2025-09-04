@@ -14,7 +14,9 @@ import {
 } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { ThemedText } from '../../components/ThemedText';
+import { theme } from '../../theme';
 import { WhisperCtx } from '../_layout';
 
 export default function PttScreen() {
@@ -191,7 +193,7 @@ export default function PttScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PTT</Text>
+      <ThemedText variant="h1" align="center" style={styles.title}>PTT</ThemedText>
 
       <View style={styles.controls}>
         <Pressable
@@ -199,34 +201,34 @@ export default function PttScreen() {
           onPressOut={handlePressOut}
           style={({ pressed }) => [
             styles.pttButton,
-            { backgroundColor: pressed ? '#ff6b6b' : '#4CAF50' },
-            { opacity: !modelLoaded ? 0.6 : 1 },
+            { opacity: !modelLoaded ? 0.6 : pressed ? 0.9 : 1 },
           ]}
           android_ripple={{ color: '#ffffff22' }}
           disabled={!modelLoaded}
         >
-          <Text style={styles.pttText}>
-            {recorderState.isRecording ? 'Release to stop' : 'Hold to talk'}
-          </Text>
+          <Image
+            source={require('../../assets/images/presstotalk.png')}
+            style={styles.pttImage}
+          />
         </Pressable>
       </View>
 
       {recorderState.isRecording ? (
-        <Text style={styles.recordingStatus}>🔴 Recording… Speak now</Text>
+        <ThemedText variant="caption" weight="700" align="center" style={styles.recordingStatus}>🔴 Recording… Speak now</ThemedText>
       ) : null}
 
       {result ? (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultTitle}>Result</Text>
-          <Text style={styles.resultText}>{result}</Text>
+          <ThemedText variant="title" weight="700" style={styles.resultTitle}>Result</ThemedText>
+          <ThemedText variant="body" color="text" style={styles.resultText}>{result}</ThemedText>
         </View>
       ) : null}
 
       <View style={styles.logsContainer}>
         {logs.slice(-6).map((log, idx) => (
-          <Text key={`${idx}-${log}`} style={styles.logText}>
+          <ThemedText key={`${idx}-${log}`} variant="caption" color="mutedText" style={styles.logText}>
             {log}
-          </Text>
+          </ThemedText>
         ))}
       </View>
     </View>
@@ -234,15 +236,16 @@ export default function PttScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#f5f5f5' },
-  title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, marginTop: 50 },
+  container: { flex: 1, padding: 20, },
+  title: { marginBottom: 30, marginTop: 50 },
   controls: { gap: 16, alignItems: 'center' },
   pttButton: { padding: 18, borderRadius: 12, alignItems: 'center', minWidth: 200 },
-  pttText: { color: 'white', fontWeight: 'bold' },
-  recordingStatus: { fontSize: 14, textAlign: 'center', marginTop: 16, color: '#ff6b6b', fontWeight: 'bold' },
-  resultContainer: { backgroundColor: 'white', padding: 15, borderRadius: 8, marginVertical: 20 },
-  resultTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 6 },
-  resultText: { fontSize: 14, color: '#333' },
-  logsContainer: { marginTop: 8, backgroundColor: 'white', borderRadius: 8, padding: 12 },
-  logText: { fontSize: 12, color: '#666', marginBottom: 2, fontFamily: 'monospace' },
+  pttImage: { width: 400, height: 400, resizeMode: 'contain' },
+  pttText: { fontWeight: 'bold' },
+  recordingStatus: { marginTop: 16, color: theme.colors.warning },
+  resultContainer: { backgroundColor: theme.colors.background, padding: 15, borderRadius: 8, marginVertical: 20 },
+  resultTitle: { marginBottom: 6 },
+  resultText: { },
+  logsContainer: { marginTop: 8, backgroundColor: theme.colors.background, borderRadius: 8, padding: 12 },
+  logText: { fontFamily: 'monospace' },
 });

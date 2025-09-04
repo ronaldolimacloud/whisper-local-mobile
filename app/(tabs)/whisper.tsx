@@ -27,6 +27,7 @@ export default function PttScreen() {
   const [result, setResult] = useState('');
   const [logs, setLogs] = useState<string[]>([]);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [isHolding, setIsHolding] = useState(false);
   const hapticsOn = true;
 
   // 16 kHz mono WAV on iOS for whisper.cpp
@@ -171,6 +172,7 @@ export default function PttScreen() {
   }, []);
 
   const handlePressIn = async () => {
+    setIsHolding(true);
     if (hapticsOn) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 
     // Play chirp loud on iOS, then return to record mode.
@@ -187,6 +189,7 @@ export default function PttScreen() {
   };
 
   const handlePressOut = async () => {
+    setIsHolding(false);
     if (hapticsOn) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     if (recorderState.isRecording) await stopRecordingAndTranscribe();
   };
@@ -207,7 +210,11 @@ export default function PttScreen() {
           disabled={!modelLoaded}
         >
           <Image
-            source={require('../../assets/images/presstotalk.png')}
+            source={
+              isHolding
+                ? require('../../assets/images/presstotalk_green.png')
+                : require('../../assets/images/presstotalk.png')
+            }
             style={styles.pttImage}
           />
         </Pressable>

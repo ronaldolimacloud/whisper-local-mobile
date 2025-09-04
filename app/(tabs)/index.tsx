@@ -237,7 +237,7 @@ export default function Index() {
       addLog('Loading whisper model via expo-asset...');
       
       // Load model safely using expo-asset to avoid Metro crashes
-      const modelAsset = Asset.fromModule(require('../assets/models/ggml-tiny.en.bin'));
+      const modelAsset = Asset.fromModule(require('../../assets/models/ggml-tiny.en.bin'));
       await modelAsset.downloadAsync();
       const modelPath = modelAsset.localUri!;
       
@@ -276,7 +276,7 @@ export default function Index() {
         addLog('🎵 Loading sample.wav for transcription...');
         addLog('⚠️ Note: Very short audio files (< 1 second) may cause issues');
         
-        const audioPath = require('../assets/audio/sample.wav');
+        const audioPath = require('../../assets/audio/sample.wav');
         addLog('📁 Audio file loaded, starting transcription...');
         
         // Use the correct API format according to whisper.rn documentation

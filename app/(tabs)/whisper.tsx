@@ -13,21 +13,26 @@ import {
   useAudioRecorderState,
 } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Alert, Image, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '../../components/ThemedText';
 import { theme } from '../../theme';
 import { WhisperCtx } from '../_layout';
 
 export default function PttScreen() {
-  const whisperContext = useContext(WhisperCtx);           // <-- global context
+  const whisperContext = useContext(WhisperCtx); // <-- global context
   const modelLoaded = !!whisperContext;
 
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState('');
   const [logs, setLogs] = useState<string[]>([]);
   const [permissionGranted, setPermissionGranted] = useState(false);
+
+  // Visual state for the button image
   const [isHolding, setIsHolding] = useState(false);
+  // Ref to guard async chains if user releases early
+  const isHeldRef = useRef(false);
+
   const hapticsOn = true;
 
   // 16 kHz mono WAV on iOS for whisper.cpp
@@ -54,21 +59,26 @@ export default function PttScreen() {
 
   const addLog = (m: string) => setLogs((p) => [...p, `[${new Date().toLocaleTimeString()}] ${m}`]);
 
-  // ---- iOS routing helper: leave PlayAndRecord -> play chirp (speaker) -> re-enter PlayAndRecord
+  // ---- small util
   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+  // ---- iOS routing helper:
+  // Leave PlayAndRecord -> play chirp (speaker) -> re-enter PlayAndRecord.
+  // We flip to GREEN exactly at the moment we call play().
   const playPTTChirpIOS = async () => {
     // 1) Leave PlayAndRecord (avoid receiver/earpiece default)
     await setAudioModeAsync({ playsInSilentMode: true, allowsRecording: false } as any);
-    await wait(220);
+    await wait(220); // let routing settle
 
-    // 2) Play loud chirp
+    // 2) Start chirp and flip image exactly when sound starts
+    if (!isHeldRef.current) return; // user may have let go already
+    setIsHolding(true); // <-- switch to GREEN right as we play
     try {
       sfxPlayer.seekTo(0);
       sfxPlayer.play();
     } catch {}
 
-    await wait(320); // adjust to your chirp length
+    await wait(320); // adjust to match chirp length
 
     // 3) Re-enter PlayAndRecord for mic capture
     await setAudioModeAsync({ playsInSilentMode: true, allowsRecording: true } as any);
@@ -171,26 +181,47 @@ export default function PttScreen() {
     // NOTE: Do NOT release the model here — it's owned by the global provider.
   }, []);
 
-  const handlePressIn = async () => {
-    setIsHolding(true);
+  const handlePressIn = () => {
+    isHeldRef.current = true; // start "held" window
     if (hapticsOn) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 
-    // Play chirp loud on iOS, then return to record mode.
     if (Platform.OS === 'ios') {
-      await playPTTChirpIOS();
+      // Don't await — let UI breathe; playPTTChirpIOS will flip to GREEN at play()
+      void playPTTChirpIOS().then(async () => {
+        if (!isHeldRef.current) return; // user already released
+        if (!permissionGranted) await requestPermissions();
+        if (!modelLoaded || isLoading || recorderState.isRecording) return;
+        await startRecording();
+      });
     } else {
-      sfxPlayer.seekTo(0);
-      sfxPlayer.play();
-    }
+      // Android: flip to GREEN exactly as we play the chirp
+      setIsHolding(true);
+      try {
+        sfxPlayer.seekTo(0);
+        sfxPlayer.play();
+      } catch {}
 
-    if (!permissionGranted) await requestPermissions();
-    if (!modelLoaded || isLoading || recorderState.isRecording) return;
-    await startRecording();
+      // Defer heavy work to next tick to avoid blocking render
+      setTimeout(async () => {
+        if (!isHeldRef.current) return;
+        if (!permissionGranted) await requestPermissions();
+        if (!modelLoaded || isLoading || recorderState.isRecording) return;
+        await startRecording();
+      }, 0);
+    }
   };
 
   const handlePressOut = async () => {
+    isHeldRef.current = false;
     setIsHolding(false);
     if (hapticsOn) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
+    // Stop chirp if still playing (AudioPlayer has no .stop(); use pause + seekTo)
+    try {
+      sfxPlayer.pause();
+      sfxPlayer.seekTo(0);
+    } catch {}
+
     if (recorderState.isRecording) await stopRecordingAndTranscribe();
   };
 
@@ -221,7 +252,9 @@ export default function PttScreen() {
       </View>
 
       {recorderState.isRecording ? (
-        <ThemedText variant="caption" weight="700" align="center" style={styles.recordingStatus}>🔴 Recording… Speak now</ThemedText>
+        <ThemedText variant="caption" weight="700" align="center" style={styles.recordingStatus}>
+          🔴 Recording… Speak now
+        </ThemedText>
       ) : null}
 
       {result ? (
@@ -243,7 +276,7 @@ export default function PttScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, },
+  container: { flex: 1, padding: 20 },
   title: { marginBottom: 30, marginTop: 50 },
   controls: { gap: 16, alignItems: 'center' },
   pttButton: { padding: 18, borderRadius: 12, alignItems: 'center', minWidth: 200 },
@@ -252,7 +285,7 @@ const styles = StyleSheet.create({
   recordingStatus: { marginTop: 16, color: theme.colors.warning },
   resultContainer: { backgroundColor: theme.colors.background, padding: 15, borderRadius: 8, marginVertical: 20 },
   resultTitle: { marginBottom: 6 },
-  resultText: { },
+  resultText: {},
   logsContainer: { marginTop: 8, backgroundColor: theme.colors.background, borderRadius: 8, padding: 12 },
   logText: { fontFamily: 'monospace' },
 });

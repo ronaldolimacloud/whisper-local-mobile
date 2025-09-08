@@ -18,9 +18,10 @@ import { Link } from 'expo-router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ThemedText } from '../../components/ThemedText';
-import { addMessage } from '../../lib/voiceStore';
+import { addMessage, updateMessageTranscript } from '../../lib/voiceStore';
 import { theme } from '../../theme';
 import { WhisperCtx } from '../_layout';
+
 
 
 export default function PttScreen() {
@@ -175,19 +176,19 @@ export default function PttScreen() {
         return;
       }
 
-      // Persist the temp file
+      // Persist the temp file into your app folder
       const persistedUri = await persistRecordingFile(
         audioRecorder.uri,
         Platform.OS === 'ios' ? '.wav' : '.m4a'
       );
 
-      // Track local state for “Play Last Recording”
+      // Track local playback state
       const durMs = recorderState.durationMillis || null;
       setLastRecordingUri(persistedUri);
       setLastRecordingDurationMs(durMs);
       addLog(`💾 Saved recording for playback: ${persistedUri}`);
 
-      // Store a voice message record for the history screen
+      // Create the message in history now (without transcript yet)
       const id = `vm_${Date.now()}`;
       const atISO = new Date().toISOString();
       await addMessage({
@@ -199,7 +200,7 @@ export default function PttScreen() {
         mime: Platform.OS === 'ios' ? 'audio/wav' : 'audio/m4a',
       });
 
-      // (keep Whisper logic the same from here)
+      // Whisper must exist
       if (!whisperContext) {
         addLog('❌ Whisper model not loaded (global)');
         Alert.alert('Error', 'Model not ready yet');
@@ -207,7 +208,9 @@ export default function PttScreen() {
       }
 
       addLog('💾 Recording saved, starting transcription...');
-      const { stop, promise } = whisperContext.transcribe(audioRecorder.uri, {
+
+      // IMPORTANT: transcribe the *persisted* file, not the temp URI
+      const { stop, promise } = whisperContext.transcribe(persistedUri, {
         language: 'en',
         maxLen: 1,
         tokenTimestamps: true,
@@ -228,8 +231,13 @@ export default function PttScreen() {
         setResult('No speech detected. Try speaking louder or closer to the microphone.');
         if (hapticsOn) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       } else {
-        addLog(`✅ Transcribed: "${text}"`);
-        setResult(text.trim());
+        const trimmed = text.trim();
+        addLog(`✅ Transcribed: "${trimmed}"`);
+        setResult(trimmed);
+
+        // NEW: persist transcript on the just-created message
+        await updateMessageTranscript(id, trimmed);
+
         if (hapticsOn) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
     } catch (e: any) {

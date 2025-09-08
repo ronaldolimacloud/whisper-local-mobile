@@ -8,6 +8,7 @@ export type VoiceMessage = {
   durationSec?: number;     // seconds (optional but nice)
   at: string;               // ISO timestamp
   mime?: string;            // optional, e.g., "audio/wav"
+  transcript?: string;      // optional, e.g., "Hello, how are you?"
 };
 
 const KEY = 'VOICE_MESSAGES_V1';
@@ -36,4 +37,16 @@ export async function addMessage(msg: VoiceMessage) {
 
 export async function clearMessages() {
   await AsyncStorage.removeItem(KEY);
+}
+
+/**
+ * Update just the transcript for a given message id.
+ * Used by ptt screen after Whisper finishes.
+ */
+export async function updateMessageTranscript(id: string, transcript: string) {
+  const all = await loadMessages();
+  const i = all.findIndex((m) => m.id === id);
+  if (i === -1) return; // no-op if not found
+  all[i] = { ...all[i], transcript };
+  await saveMessages(all);
 }

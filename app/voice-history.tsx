@@ -198,6 +198,20 @@ function MessageBubble({
             {fmtDuration(message.durationSec)}
           </Text>
         </Pressable>
+
+        {/* Transcript under the audio bubble (optional) */}
+        {message.transcript?.trim() ? (
+          <Text
+            style={[
+              styles.transcript,
+              mine ? styles.transcriptOnBlue : styles.transcriptOnGray,
+            ]}
+            numberOfLines={4}
+            ellipsizeMode="tail"
+          >
+            {message.transcript.trim()}
+          </Text>
+        ) : null}
       </View>
     </View>
   );
@@ -256,6 +270,17 @@ const styles = StyleSheet.create({
   durTextOnBlue: { color: '#ffffff' },
   timeTextOnGray: { color: '#d1d1d6' },
   durTextOnGray: { color: '#f2f2f7' },
+
+  // NEW: transcript styles
+  transcript: {
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+    paddingTop: 4,
+    fontSize: 14,
+    lineHeight: 18,
+  },
+  transcriptOnBlue: { color: '#eaf3ff' },
+  transcriptOnGray: { color: '#d1d1d6' },
 
   bottomBar: {
     position: 'absolute',

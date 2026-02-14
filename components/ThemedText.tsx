@@ -1,5 +1,5 @@
 // components/ThemedText.tsx
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Text, TextProps, TextStyle } from 'react-native';
 import { theme, type TextVariant } from '../theme';
 
@@ -23,17 +23,15 @@ export function ThemedText(props: ThemedTextProps) {
     ...rest
   } = props;
 
-  const computedStyle = useMemo<TextStyle>(() => {
-    const base = theme.typography[variant];
-    return {
-      ...base,
-      color: theme.colors[color],
-      fontWeight: weight ?? base.fontWeight,
-      textAlign: align,
-      textTransform: uppercase ? 'uppercase' : undefined,
-      letterSpacing: base.letterSpacing,
-    };
-  }, [variant, color, weight, align, uppercase]);
+  const base = theme.typography[variant];
+  const computedStyle: TextStyle = {
+    ...base,
+    color: theme.colors[color],
+    fontWeight: weight ?? base.fontWeight,
+    textAlign: align,
+    textTransform: uppercase ? 'uppercase' : undefined,
+    letterSpacing: base.letterSpacing,
+  };
 
   // Keep your original behavior: computed style applied last enforces color by default
   return <Text {...rest} style={[style, computedStyle]} />;

@@ -12,10 +12,10 @@ import {
   useAudioRecorder,
   useAudioRecorderState,
 } from 'expo-audio';
-import * as FileSystem from 'expo-file-system';
+import { Paths, File as FSFile, Directory } from 'expo-file-system';
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ThemedText } from '../../components/ThemedText';
 import { addMessage, updateMessageTranscript } from '../../lib/voiceStore';
@@ -25,7 +25,7 @@ import { WhisperCtx } from '../_layout';
 
 
 export default function PttScreen() {
-  const whisperContext = useContext(WhisperCtx); // <-- global context
+  const whisperContext = use(WhisperCtx); // <-- global context
   const modelLoaded = !!whisperContext;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -84,22 +84,22 @@ export default function PttScreen() {
   }, [lastRecordingUri]);
 
   // ensure an app folder exists to keep your wavs
-  async function ensureRecordingsDir() {
-    const dir = (FileSystem.documentDirectory || '') + 'recordings/';
-    const info = await FileSystem.getInfoAsync(dir);
-    if (!info.exists) await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
+  function ensureRecordingsDir() {
+    const dir = new Directory(Paths.document, 'recordings');
+    if (!dir.exists) dir.create({ intermediates: true });
     return dir;
   }
 
   // copy/move the temp file into your app folder with a timestamped name
-  async function persistRecordingFile(tempUri: string, ext = '.wav') {
-    const dir = await ensureRecordingsDir();
+  function persistRecordingFile(tempUri: string, ext = '.wav') {
+    const dir = ensureRecordingsDir();
     const ts = new Date();
     const filename = `ptt_${ts.toISOString().replace(/[:.]/g, '-')}${ext}`;
-    const dest = dir + filename;
+    const dest = new FSFile(dir, filename);
     // On iOS/Android, temp URIs can disappear — copy is safer than move
-    await FileSystem.copyAsync({ from: tempUri, to: dest });
-    return dest;
+    const src = new FSFile(tempUri);
+    src.copy(dest);
+    return dest.uri;
   }
 
   // ---- iOS routing helper:
@@ -177,7 +177,7 @@ export default function PttScreen() {
       }
 
       // Persist the temp file into your app folder
-      const persistedUri = await persistRecordingFile(
+      const persistedUri = persistRecordingFile(
         audioRecorder.uri,
         Platform.OS === 'ios' ? '.wav' : '.m4a'
       );

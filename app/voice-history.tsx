@@ -5,7 +5,7 @@ import {
     useAudioPlayer,
     useAudioPlayerStatus,
 } from 'expo-audio';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Platform,
     Pressable,
@@ -107,17 +107,17 @@ export default function VoiceHistoryScreen() {
     })();
   }, []);
 
-  const sections = useMemo(() => {
+  const sections = (() => {
     const map: Record<string, VoiceMessage[]> = {};
     for (const m of msgs) {
       const k = dayLabel(new Date(m.at));
       (map[k] ??= []).push(m);
     }
     return Object.entries(map).map(([title, data]) => ({ title, data }));
-  }, [msgs]);
+  })();
 
-  const uris = useMemo(() => msgs.map((m) => m.uri), [msgs]);
-  const ids = useMemo(() => msgs.map((m) => m.id), [msgs]);
+  const uris = msgs.map((m) => m.uri);
+  const ids = msgs.map((m) => m.id);
 
   const player = useQueuePlayerAudio(uris);
   const jumpById = (id: string) => {

@@ -42,11 +42,11 @@ export default function RootLayout() {
   if (!ready) return null;
 
   return (
-    <WhisperCtx.Provider value={ctx}>
+    <WhisperCtx value={ctx}>
       <Stack>
         {/* keep your existing tabs route and options */}
         <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
       </Stack>
-    </WhisperCtx.Provider>
+    </WhisperCtx>
   );
 }

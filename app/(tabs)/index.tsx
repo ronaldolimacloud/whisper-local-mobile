@@ -44,6 +44,7 @@ export default function Index() {
       outputFormat: 'mpeg4',
       audioEncoder: 'aac',
     },
+    web: {},
   };
   
   // Use preset on Android (stable M4A), WAV only on iOS

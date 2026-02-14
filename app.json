@@ -11,7 +11,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "whisperlocal",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yourcompany.whisperlocal",
@@ -64,7 +63,8 @@
       "expo-audio"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "reactCompiler": true
     }
   }
 }

@@ -13,14 +13,14 @@ import {
   useAudioRecorderState,
 } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { Alert, Image, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '../../components/ThemedText';
 import { theme } from '../../theme';
 import { WhisperCtx } from '../_layout';
 
 export default function PttScreen() {
-  const whisperContext = useContext(WhisperCtx); // <-- global context
+  const whisperContext = use(WhisperCtx); // <-- global context
   const modelLoaded = !!whisperContext;
 
   const [isLoading, setIsLoading] = useState(false);
